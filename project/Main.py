@@ -5,6 +5,8 @@ from project import Soybean as soybean
 from project import BreastCancer as bc
 from project import HouseVotes as votes
 from project import FiveFold as ff
+from project import NeuralNetwork as nn
+from project import ForwardPropagate as fp
 import sys
 
 """
@@ -22,6 +24,13 @@ def run_iris(filename, target_class, class_wanted, iris_names):
     # Setup five fold cross validation
     five_fold = ff.FiveFold()
     iris1, iris2, iris3, iris4, iris5 = five_fold.five_fold_sort_class(data=iris_data, sortby=target_class)
+    print(iris1)
+    iris_network = nn.NeuralNetwork(train_data=iris1, test_data=iris2)
+    iris1_network = iris_network.new_neural_network(inputs=iris1.shape[1], hidden_layers=1, possible_outputs=2)
+    iris_forward = fp.ForwardPropagate()
+
+    for row in iris1.values:
+        iris_forward.forward_propagate_network(input_row=row, network=iris1_network)
 
     return iris1
 
